@@ -2,6 +2,7 @@ import MainBg from "../assets/hero-bg.png";
 import TopLogo from "../assets/top-logo.png";
 import { GradientButton } from "./common/GradientButton";
 import { GradientBorderButton } from "./common/GradientBorderButton";
+import { Link } from "react-router-dom";
 
 export const MainPage = () => {
   return (
@@ -36,10 +37,18 @@ export const MainPage = () => {
         </div>
 
         <div className="flex gap-5 md:gap-10 flex-wrap mt-10 md:mt-20 items-center justify-center">
-          <GradientBorderButton text="Top 4 Sponsors" />
-          <GradientBorderButton text="Guide" />
-          <GradientBorderButton text="Wallet Tutorial" />
-          <GradientBorderButton text="Marketing" />
+          <Link to={"innovation"}>
+            <GradientBorderButton text="Top 4 Sponsors" />
+          </Link>
+          <Link to={"innovation"}>
+            <GradientBorderButton text="Guide" />
+          </Link>
+          <Link to={"innovation"}>
+            <GradientBorderButton text="Wallet Tutorial" />
+          </Link>
+          <Link to={"innovation"}>
+            <GradientBorderButton text="Marketing" />
+          </Link>
         </div>
       </div>
     </div>
