@@ -1,8 +1,7 @@
 // Import required components from React Router
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
-import { CryptoInnovationPage } from "./components/CryptoInnovationPage";
-import { MainPage } from "./components/MainPage";
+import { CryptoInnovationPage } from "./views/CryptoInnovationPage";
+import { MainPage } from "./views/MainPage";
 
 const router = createBrowserRouter([
   {
