@@ -1,18 +1,18 @@
-import React from "react";
+// import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 // import { Button } from "@/components/ui/button";
 
 const SmartContactInfo = () => {
   const contactInfoItems = Array(8)
     .fill(null)
-    .map((_, index) => ({
+    .map((_, index: number) => ({
       paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
       contractAddress: `Contract Address ${index + 1}`
     }));
 
   const personalStatistics = Array(8)
     .fill(null)
-    .map((_, index) => ({
+    .map(() => ({
       nextIncome: 0,
       contribution: 0
     }));

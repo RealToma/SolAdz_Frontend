@@ -43,6 +43,8 @@ export const CryptoInnovationPage = () => {
     setSolAmount(0);
   };
 
+  const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
+
   return (
     <div className="min-h-screen pb-12 relative h-full overflow-x-hidden">
       <img className="absolute top-0 left-0 w-full h-full object-fill" src={MainBg} alt="Bg Hero" />
@@ -59,16 +61,21 @@ export const CryptoInnovationPage = () => {
             </div>
 
             <div className="flex items-center text-xs lg:text-sm">
-              {/* todo - add it somewhere for mobile */}
+              {/* todo - update it for mobile also */}
               <div className="hidden md:flex">
-                <span className="text-white mr-4">MY SOLADZ RANK: STARTER | MY SOL ADDRESS:</span>
+                <span className="text-white mr-4">{rightText}</span>
               </div>
               <ConnectWalletButton text="CONNECT WALLET" />
             </div>
           </header>
 
+          {/*  */}
+          <div className=" flex text-center md:hidden justify-center mt-6">
+            <span className="text-white text-xs mr-4">{rightText}</span>
+          </div>
+
           <div className="flex gap-2 md:gap-2 flex-col md:flex-row justify-center md:justify-between items-center">
-            <nav className="text-black flex gap-3 mt-8 md:mt-0">
+            <nav className="text-black flex gap-3 mt-4 md:mt-0">
               {heroLinks.map((val, index) => (
                 <div key={val.id} className="flex items-center gap-3">
                   <a
