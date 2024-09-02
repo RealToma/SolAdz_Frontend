@@ -165,10 +165,9 @@ export const CryptoInnovationPage = () => {
             <div className="p-4 sm:p-8">
               <div className="relative z-10 lg:ml-auto max-w-[547px] rounded-r-lg">
                 <div
-                  className={`relative inline-block p-[2px] w-full rounded-full mb-5`}
+                  className={`relative rounded-[6px] inline-block p-[2px] w-full  mb-5`}
                   style={{
-                    background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
-                    borderRadius: "6px" // Ensures the outer wrapper is fully rounded
+                    background: "linear-gradient(to right, #623EFF, #7AD6FF)" //
                   }}
                 >
                   <div className="bg-[#171c2c] text-right p-4 rounded-lg">
@@ -179,11 +178,7 @@ export const CryptoInnovationPage = () => {
                   {[0.1, 0.3, 0.5, 1, 1.5, 3, 5, 10, 25, 55, 50, 100].map((amount) => (
                     <>
                       <div
-                        className={`relative inline-block p-[2px] rounded-full $ `}
-                        style={{
-                          background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
-                          borderRadius: "6px" // Ensures the outer wrapper is fully rounded
-                        }}
+                        className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px] `}
                       >
                         <button
                           onClick={() => handleAmountClick(amount)}
@@ -202,11 +197,7 @@ export const CryptoInnovationPage = () => {
                 </div>
                 <div className="flex gap-3 md:gap-5">
                   <div
-                    className={`relative inline-block p-[2px] w-full rounded-[6px]`}
-                    style={{
-                      background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
-                      borderRadius: "6px" // Ensures the outer wrapper is fully rounded
-                    }}
+                    className={`relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
                   >
                     <button
                       onClick={handleReset}
@@ -216,13 +207,9 @@ export const CryptoInnovationPage = () => {
                     </button>
                   </div>
                   <div
-                    className={`relative inline-block p-[2px] w-full rounded-full ${
+                    className={`relative inline-block p-[2px] w-full bg-button-gradient-2 rounded-[6px] ${
                       solAmount === 0 ? "opacity-30" : ""
                     }`}
-                    style={{
-                      background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
-                      borderRadius: "6px" // Ensures the outer wrapper is fully rounded
-                    }}
                   >
                     {/* Here is the signature request modal */}
                     <SignatureRequestModal solAmount={solAmount} />

@@ -61,11 +61,7 @@ const SmartContactInfo = () => {
               </div>
             ))}
             <div
-              className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px]`}
-              style={{
-                background: "linear-gradient(to right, #623EFF, #7AD6FF)", // Gradient border background
-                borderRadius: "6px" // Ensures the outer wrapper is fully rounded
-              }}
+              className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >
               <button className="w-full bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
                 Withdraw
