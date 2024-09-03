@@ -18,7 +18,6 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
         py-4 px-[30px] sm:px-[45px] md:px-[85px] rounded-[7px]
         bg-custom-gradient
         text-white text-base md:text-xl font-bold uppercase tracking-wide 
-        transition-transform hover:scale-105 
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
         ${className}
       `}

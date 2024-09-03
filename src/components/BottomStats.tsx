@@ -30,7 +30,7 @@ export const BottomStats = () => {
                 key={index}
                 className={`${
                   index === 0 ? "border-white/20 border-t" : ""
-                } border-b py-4 border-white/20 flex justify-between items-center`}
+                } border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
               >
                 <div>
                   <p className="text-sm">{item.paidContributionTimer}</p>
@@ -51,7 +51,7 @@ export const BottomStats = () => {
                 key={index}
                 className={`${
                   index === 0 ? "border-white/20 border-t" : ""
-                } border-b py-4 border-white/20 flex justify-between items-center`}
+                } border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
               >
                 <div className="">
                   <p className="text-sm">Next income</p>
@@ -63,7 +63,7 @@ export const BottomStats = () => {
             <div
               className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >
-              <button className="w-full bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
+              <button className="w-full hover:brightness-150 transition-all duration-300 bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
                 Withdraw
               </button>
             </div>
