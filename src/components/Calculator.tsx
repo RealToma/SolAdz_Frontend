@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SignatureRequestModal } from "./SignatureRequestModal";
+import SignatureRequestModal from "./SignatureRequestModal";
 import CalculatorBg from "../assets/calculator-bg.png";
 
 export const Calculator = () => {

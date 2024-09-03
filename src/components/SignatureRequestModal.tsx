@@ -16,7 +16,7 @@ const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: str
   );
 };
 
-export const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
+const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
 
   const handleTransaction = () => {
@@ -164,3 +164,5 @@ export const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
     </Dialog>
   );
 };
+
+export default SignatureRequestModal;
