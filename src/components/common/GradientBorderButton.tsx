@@ -22,7 +22,7 @@ export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({
       <button
         onClick={onClick}
         className={`
-          relative bg-[#4F94FF] hover:brightness-110 transition-all duration-300 rounded-full px-6 py-2 text-white font-medium 
+          relative bg-[#4F94FF] hover:brightness-125 transition-all duration-300 rounded-full px-6 py-2 text-white font-medium 
           min-w-[254px] flex items-center justify-center
         `}
         style={{

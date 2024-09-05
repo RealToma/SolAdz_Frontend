@@ -17,7 +17,7 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
       onClick={onClick}
       className={`cursor-pointer text-center relative  text-white text-sm bg-button-gradient  connect-wallet ${className} p-[2px] rounded-[12px]`}
     >
-      <button className="bg-[#6a7aff] px-3 sm:px-3 md:px-[12px] rounded-[12px] lg:px-24 py-[10px]">
+      <button className="bg-[#6a7aff] px-3 sm:px-3 md:px-[12px] rounded-[12px] lg:px-24 py-[10px] hover:bg-white/20 transition-all duration-300">
         {text || "CONNECT WALLET"}
       </button>
       {/* <img

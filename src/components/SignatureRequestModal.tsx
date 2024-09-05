@@ -26,7 +26,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
   return (
     <Dialog>
       <DialogTrigger disabled={solAmount === 0} asChild>
-        <button className="w-full bg-[#140e3c] hover:brightness-150 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px] disabled:hover:brightness-100">
+        <button className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px] disabled:hover:bg-[#140e3c]">
           Deposit
         </button>
       </DialogTrigger>
@@ -77,8 +77,8 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                     Allow SOLLink to automatically sign for this DApp
                   </p>
                   <Input
-                    className="w-full border-gray-300 rounded-md mt-2"
-                    placeholder="For 1 hour"
+                    className="w-full border-gray-300 text-black rounded-md mt-2"
+                    placeholder="For 1 hour "
                   />
                 </div>
                 <div className="flex justify-end gap-4">

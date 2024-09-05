@@ -6,7 +6,7 @@ export const Calculator = () => {
   const [solAmount, setSolAmount] = useState(0);
 
   const handleAmountClick = (amount: number) => {
-    setSolAmount((prevVal) => amount + prevVal);
+    setSolAmount((prevVal) => +(amount + prevVal).toFixed(2));
   };
 
   const handleReset = () => {
@@ -39,12 +39,12 @@ export const Calculator = () => {
               {availableValues.map((amount) => (
                 <>
                   <div
-                    className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px] `}
+                    className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px]`}
                   >
                     <button
                       onClick={() => handleAmountClick(amount)}
                       className={`
-          relative bg-[#191e34] hover:brightness-150 transition-all duration-300 px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
+          relative bg-[#191e34] hover:bg-white/20 transition-all duration-300 px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
                     >
                       +{amount} SOL
                     </button>
@@ -58,7 +58,7 @@ export const Calculator = () => {
               >
                 <button
                   onClick={handleReset}
-                  className="w-full bg-[#140e3c] hover:brightness-150 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"
+                  className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"
                 >
                   Reset
                 </button>
