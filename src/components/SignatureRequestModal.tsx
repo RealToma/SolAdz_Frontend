@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { DialogClose, DialogOverlay } from "@radix-ui/react-dialog";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import IDL from '../idl/soladz.json';
+import { AnchorProvider, BN, Idl, Program, setProvider, utils } from "@coral-xyz/anchor";
+import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -19,9 +23,31 @@ const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: str
 const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
 
-  const handleTransaction = () => {
-    setTransactionSuccess(true);
-  };
+  const { connection } = useConnection();
+  const { publicKey, signAllTransactions, signTransaction } = useWallet();
+
+  const handleTransaction = useCallback(async() => {
+    try {
+      if (!publicKey || !signTransaction || !signAllTransactions) return;
+      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+      const program = new Program(IDL as Idl, provider);
+      const ixn = await program.methods.invest(new BN(solAmount * LAMPORTS_PER_SOL)).instruction();
+      const instructions = [ixn];
+      const { blockhash } = await connection.getLatestBlockhash();
+      const message = new TransactionMessage({
+        payerKey: publicKey,
+        recentBlockhash: blockhash,
+        instructions
+      }).compileToV0Message();
+      const transaction = new VersionedTransaction(message);
+      const txn = await signTransaction(transaction);
+      await connection.sendTransaction(txn);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setTransactionSuccess(true);
+    } catch (e) {
+
+    }
+  }, [publicKey, signAllTransactions, signAllTransactions, solAmount]);
 
   return (
     <Dialog>

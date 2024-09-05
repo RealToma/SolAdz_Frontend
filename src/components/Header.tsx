@@ -1,9 +1,13 @@
 import { ConnectWalletButton } from "./common/ConnectWalletButton";
 import TopLogo from "../assets/top-logo.png";
 import { Link } from "react-router-dom";
+import { BaseWalletMultiButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const Header = () => {
   const rightText = "MY SOLADZ RANK: STARTER | MY SOL ADDRESS:";
+  const { setVisible } = useWalletModal();
+  const { wallet, publicKey, disconnect } = useWallet();
 
   return (
     <div>
@@ -19,7 +23,7 @@ export const Header = () => {
           <div className="hidden md:flex">
             <span className="text-white mr-4">{rightText}</span>
           </div>
-          <ConnectWalletButton text="CONNECT WALLET" />
+          <ConnectWalletButton onClick={() => setVisible(true)} text={!!publicKey ? `${publicKey.toBase58().slice(0, 3)}...${publicKey.toBase58().slice(-3)}` : 'connect wallet'} />
         </div>
       </header>
 
