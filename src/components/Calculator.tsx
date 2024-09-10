@@ -36,20 +36,19 @@ export const Calculator = () => {
               </div>
             </div>
             <div className="grid grid-cols-4 gap-3 md:gap-5 mb-4">
-              {availableValues.map((amount) => (
-                <>
-                  <div
-                    className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px]`}
-                  >
-                    <button
-                      onClick={() => handleAmountClick(amount)}
-                      className={`
+              {availableValues.map((amount, i) => (
+                <div
+                  key={i}
+                  className={`relative bg-button-gradient-2 inline-block rounded-[6px] p-[2px]`}
+                >
+                  <button
+                    onClick={() => handleAmountClick(amount)}
+                    className={`
           relative bg-[#191e34] hover:bg-white/20 transition-all duration-300 px-1 sm:px-2 w-full py-1 text-white font-light text-sm flex items-center justify-center text-nowrap rounded-[6px]`}
-                    >
-                      +{amount} SOL
-                    </button>
-                  </div>
-                </>
+                  >
+                    +{amount} SOL
+                  </button>
+                </div>
               ))}
             </div>
             <div className="flex gap-3 md:gap-5">
@@ -64,12 +63,11 @@ export const Calculator = () => {
                 </button>
               </div>
               <div
-                className={`relative inline-block p-[2px] w-full bg-button-gradient-2 rounded-[6px] ${
-                  solAmount === 0 ? "opacity-30" : ""
-                }`}
+                className={`relative inline-block p-[2px] w-full bg-button-gradient-2 rounded-[6px] ${solAmount === 0 ? "opacity-30" : ""
+                  }`}
               >
                 {/* Here is the signature request modal */}
-                <SignatureRequestModal solAmount={solAmount} />
+                <SignatureRequestModal solAmount={solAmount} resetAmount={() => setSolAmount(0)} />
               </div>
             </div>
           </div>

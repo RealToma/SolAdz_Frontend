@@ -4,22 +4,22 @@ import GetStartedToday from "../assets/get-started-today.svg";
 const heroLinks = [
   {
     id: 1,
-    title: "wallet tutorial",
+    title: "Tutorial",
     href: "#"
   },
   {
     id: 2,
-    title: "GUIDE",
+    title: "Marketing Material",
     href: "#"
   },
   {
     id: 3,
-    title: "EXCHANGE",
+    title: "Socials",
     href: "#"
   },
   {
     id: 4,
-    title: "SHOP",
+    title: "Top Sponsor",
     href: "#"
   }
 ];
@@ -32,7 +32,7 @@ export const SubHeader = () => {
           <div key={val.id} className="flex items-center gap-3">
             <a
               href={val.href}
-              className="uppercase font-medium text-xs sm:text-sm md:text-base lg:text-2xl hover:text-black/70 transition-all duration-300"
+              className="uppercase font-medium text-xs sm:text-sm md:text-base lg:text-2xl hover:text-white/80 transition-all duration-300 cursor-pointer"
             >
               {val.title}
             </a>

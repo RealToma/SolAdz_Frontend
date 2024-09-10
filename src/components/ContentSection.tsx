@@ -15,12 +15,12 @@ export const ContentSection = () => {
           <h2 className="text-[30px] md:text-[40px] lg:text-[60px] poller font-bold mb-4">
             SolAdz
           </h2>
-          <h3 className="max-w-[393px] text-[20px] md:text-[30px] lg:text-[40px] leading-[1.5] font-bold">
-            Leading the Way in Crypto Innovation
+          <h3 className="max-w-[393px] text-[18px] md:text-[25px] lg:text-[30px] leading-[1.5] font-bold">
+            Leading the Future of Project Advertisement & Investment
           </h3>
-          <p className="text-xs sm:text-sm md:text-[15px] mt-4">
-            Soladz revolutionizes cryptocurrencies. Soladz is a secure, intuitive, and powerful
-            platform for beginners and experts to manage, trade, and grow crypto portfolios
+          <p className="text-xs sm:text-sm md:text-[16px] mt-4">
+            Empowering businesses, fueling growth, and providing sustainable
+            returns through blockchain-powered innovation.
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginModal = () => {
@@ -14,7 +14,7 @@ const LoginModal = () => {
       navigate("/manage");
     } else {
       alert("Invalid credentials");
-      localStorage.setItem('isAuthenticated', 'false');
+      localStorage.setItem("isAuthenticated", "false");
       navigate("/");
     }
   };

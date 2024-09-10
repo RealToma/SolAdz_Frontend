@@ -16,7 +16,6 @@ import {
   SolflareWalletAdapter,
   SolongWalletAdapter,
   TorusWalletAdapter,
-  UnsafeBurnerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
@@ -24,6 +23,7 @@ import { Manage } from "./views/Manage";
 
 import LoginModal from "./components/LoginModal";
 import ProtectedRoute from "./components/ProtectRoutes";
+import { BalanceContextProvider } from "./components/contexts/useBalance";
 
 // Default styles that can be overridden by your app
 import("@solana/wallet-adapter-react-ui/styles.css");
@@ -85,21 +85,23 @@ function App() {
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider>
-            <div
-              className={`${
-                isLoading ? "opacity-100" : "opacity-0"
-              } transition-all duration-300 fixed min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
-            >
-              <div className="h-full w-full flex items-center justify-center">
-                <Lottie
-                  className="max-w-[800px]"
-                  height={500}
-                  width={500}
-                  animationData={animationData}
-                />
+            <BalanceContextProvider>
+              <div
+                className={`${isLoading ? "opacity-100" : "opacity-0"
+                  } transition-all duration-300 fixed min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
+              >
+                <div className="h-full w-full flex items-center justify-center">
+
+                  <Lottie
+                    className="max-w-[800px]"
+                    height={500}
+                    width={500}
+                    animationData={animationData}
+                  />
+                </div>
               </div>
-            </div>
-            <RouterProvider router={router} />
+              <RouterProvider router={router} />
+            </BalanceContextProvider>
           </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>

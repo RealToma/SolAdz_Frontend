@@ -30,26 +30,51 @@ body {
 
 /* For webkit browsers (like Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 14px; /* Increased width for better visibility */
+  width: 20px !important;
+  /* Increased width for better visibility */
 }
 
 ::-webkit-scrollbar-track {
-  background: #12122b; /* Darker background color for better contrast */
-  border-radius: 10px; /* Rounded corners for the track */
+  background: #12122b;
+  /* Darker background color for better contrast */
+  /* border-radius: 12px; */
+  /* Rounded corners for the track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #7a5fff, #ff5bbd); /* More vibrant gradient colors */
-  border-radius: 10px; /* Rounded corners for the thumb */
-  border: 3px solid #12122b; /* Slightly thicker border around the thumb */
+  background: linear-gradient(45deg, #70e9d5, #7a5fff);
+  /* More vibrant gradient colors */
+  border-radius: 6px;
+  /* Rounded corners for the thumb */
+  border: 3px solid #12122b;
+  /* Slightly thicker border around the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #9b5de5, #ff85a1); /* Brighter hover color */
+  cursor: pointer;
+  background: linear-gradient(45deg, #ffa4ff, #70e9d5);
+  /* Brighter hover color */
 }
 
 /* For Firefox */
 * {
-  scrollbar-width: auto; /* Normal scrollbar width for better visibility */
-  scrollbar-color: #7a5fff #12122b; /* Thumb color and track color for better contrast */
+  scrollbar-width: auto;
+  /* Normal scrollbar width for better visibility */
+  /* scrollbar-color: #7a5fff #12122b; */
+  /* Thumb color and track color for better contrast */
+}
+
+.text-stroke {
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+
+
+.animate-pulse-blur {
+  animation: pulse-blur 0.5s ease-in-out infinite;
+
 }

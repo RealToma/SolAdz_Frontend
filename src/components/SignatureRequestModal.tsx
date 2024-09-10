@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -8,8 +8,10 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import IDL from '../idl/soladz.json';
-import { AnchorProvider, BN, Idl, Program, setProvider, utils } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Idl, Program } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
+import moment from 'moment';
+import { BalanceContext } from "./contexts/useBalance";
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -20,18 +22,24 @@ const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: str
   );
 };
 
-const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
+const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, resetAmount: () => void; }) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
+  const [txHash, setTxHash] = useState('');
 
   const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
+  const { getBalance, getRank } = useContext(BalanceContext);
+
   const handleTransaction = useCallback(async() => {
+    alert()
     try {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
       const program = new Program(IDL as Idl, provider);
-      const ixn = await program.methods.invest(new BN(solAmount * LAMPORTS_PER_SOL)).instruction();
+      const ixn = await program.methods.invest(new BN(solAmount * LAMPORTS_PER_SOL)).accounts({
+        referrer: publicKey
+      }).instruction();
       const instructions = [ixn];
       const { blockhash } = await connection.getLatestBlockhash();
       const message = new TransactionMessage({
@@ -41,11 +49,15 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
       }).compileToV0Message();
       const transaction = new VersionedTransaction(message);
       const txn = await signTransaction(transaction);
-      await connection.sendTransaction(txn);
+      const sign = await connection.sendTransaction(txn);
+      setTxHash(sign);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setTransactionSuccess(true);
+      resetAmount();
+      getBalance();
+      getRank();
     } catch (e) {
-
+      console.log(e)
     }
   }, [publicKey, signAllTransactions, signAllTransactions, solAmount]);
 
@@ -63,7 +75,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
               <>
                 <div className="text-center mb-6">
                   <p className="text-2xl font-semibold ">Request Signature</p>
-                  <p className="text-gray-500">SOL-adz.com is requesting you to sign</p>
+                  <p className="text-gray-500">sol-adz.com is requesting you to sign.</p>
                 </div>
                 <div className="text-3xl font-bold text-center text-blue-300 mb-6">
                   {solAmount} SOL
@@ -71,26 +83,26 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
-                      Mi
+                      ME
                     </div>
-                    <div className="text-sm mt-2 text-center">Micha... (TYikA... Hueck)</div>
-                    <div className="text-xs text-gray-500">500 TRX</div>
+                    <div className="text-sm mt-2 text-center">{`${publicKey?.toBase58().slice(0, 4)}...${publicKey?.toBase58().slice(-4)}`}</div>
+                    {/* <div className="text-xs text-gray-500">500 TRX</div> */}
                   </div>
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-14 bg-blue-200 rounded-full flex items-center justify-center font-medium text-blue-700">
-                      TP
+                      SC
                     </div>
-                    <div className="text-sm mt-2 text-center">TPteDwgC...xeng Fx</div>
+                    <div className="text-sm mt-2 text-center">{`${IDL.address.slice(0, 4)}...${IDL.address.slice(-4)}`}</div>
                   </div>
                 </div>
                 <div className="space-y-4 border-t border-gray-200 pt-4 mb-6">
                   <TransactionItem leftVal="Type" rightVal="Smart Contract Trigger" />
-                  <TransactionItem leftVal="Network" rightVal="Mainnet/MainChain" />
+                  <TransactionItem leftVal="Network" rightVal="Mainnet" />
                   <TransactionItem
                     leftVal="Contract"
-                    rightVal="TPteDwgC28Df5XYeXvTrR2xyszbxengjFx"
+                    rightVal={`${IDL.address.slice(0, 12)}...${IDL.address.slice(-12)}`}
                   />
-                  <TransactionItem leftVal="Function" rightVal="registerUser(uint256)" />
+                  <TransactionItem leftVal="Function" rightVal="invest(uint256)" />
                 </div>
                 <div className="bg-gray-50 p-4 rounded-md mb-6">
                   <div className="flex items-center justify-between mb-2">
@@ -100,7 +112,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                     <Switch />
                   </div>
                   <p className="text-xs text-gray-500 mb-2">
-                    Allow SOLLink to automatically sign for this DApp
+                    Allow SolLink to automatically sign for this DApp.
                   </p>
                   <Input
                     className="w-full border-gray-300 text-black rounded-md mt-2"
@@ -148,7 +160,7 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                   <div className="space-y-4 text-left ">
                     <div>
                       <span className="font-medium">Transfer account</span>
-                      <div>TYIKA1JYdQPZMFYMrPiur4UxsPtP8HuecI</div>
+                      <div>{publicKey?.toBase58()}</div>
                     </div>
                     <div>
                       <span className="font-medium">Receiving account</span>
@@ -163,24 +175,24 @@ const SignatureRequestModal = ({ solAmount }: { solAmount: number }) => {
                         Transaction ID
                       </span>
                       <div className="break-all">
-                        186722fd7dde3b206b573fa826baa06160614a1a1a48dc04005533acac5bd0dec
+                        {txHash}
                       </div>
                     </div>
                     <div>
                       <span className="font-medium">Transaction time</span>
-                      <div>2020-10-26 17:13:18</div>
+                      <div>{moment(new Date()).format('YYYY-MM-DD hh:mm:ss')}</div>
                     </div>
-                    <div>
+                    {/* <div>
                       <span className="font-medium">Block height</span>
                       <div>24475339</div>
-                    </div>
+                    </div> */}
                     <div>
-                      <span className="font-medium">Fee (?)</span>
+                      {/* <span className="font-medium">Fee (?)</span> */}
                     </div>
                   </div>
-                  <div className="mt-4 text-blue-600 cursor-pointer">
-                    Go to SOLscan for detailed data
-                  </div>
+                  <a href={`https://solscan.io/tx${txHash}`} className="mt-4 text-blue-600 cursor-pointer">
+                    Go to solscan for the detailed transaction.
+                  </a>
                 </div>
               </>
             )}
