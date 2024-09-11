@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SignatureRequestModal from "./SignatureRequestModal";
 import CalculatorBg from "../assets/calculator-bg.png";
+import { BalanceContext } from "./contexts/useBalance";
 
 export const Calculator = () => {
   const [solAmount, setSolAmount] = useState(0);
+
+  const { balance } = useContext(BalanceContext);
 
   const handleAmountClick = (amount: number) => {
     setSolAmount((prevVal) => +(amount + prevVal).toFixed(2));
@@ -32,7 +35,7 @@ export const Calculator = () => {
               }}
             >
               <div className="bg-[#171c2c] text-right p-4 rounded-lg">
-                <span className="text-white  text-2xl">{solAmount} SOL</span>
+                <span className={`${balance < solAmount ? 'text-red-600' : 'text-white'}  text-2xl`}>{solAmount} SOL</span>
               </div>
             </div>
             <div className="grid grid-cols-4 gap-3 md:gap-5 mb-4">
