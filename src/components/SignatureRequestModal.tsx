@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
+// import { Switch } from "@/components/ui/switch";
+// import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogOverlay } from "@radix-ui/react-dialog";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
