@@ -34,7 +34,6 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
   const { getBalance, getRank, balance } = useContext(BalanceContext);
 
   const handleTransaction = useCallback(async () => {
-    alert()
     try {
       if (!publicKey || !signTransaction || !signAllTransactions) return;
       const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
