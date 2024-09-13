@@ -28,7 +28,7 @@ export const Manage = () => {
       });
       const program = new Program(IDL as Idl, provider);
       const ixn = await program.methods
-        .changeOwner()
+        .transferOwnership()
         .accounts({
           newOwner: new PublicKey(ownershipAddress),
         })

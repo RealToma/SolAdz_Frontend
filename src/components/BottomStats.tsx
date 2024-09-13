@@ -151,7 +151,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Total users
               </div>
-              <div className="text-sm ">{`${investorCount}`}</div>
+              <div className="text-sm ">{!!publicKey ? `${investorCount}` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -159,7 +159,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Total deposited
               </div>
-              <div className="text-sm ">{`${volume.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${volume.toFixed(4)} SOL` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -167,7 +167,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Top sponsor pool
               </div>
-              <div className="text-sm ">{`${topSponsorPool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${topSponsorPool.toFixed(4)} SOL` : '-'}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -175,7 +175,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 Whale pool
               </div>
-              <div className="text-sm ">{`${whalePool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{!!publicKey ? `${whalePool.toFixed(4)} SOL` : '-'}</div>
             </div>
           </CardContent>
         </Card>
@@ -192,7 +192,7 @@ export const BottomStats = () => {
                 <p className="text-md">Next income</p>
                 <p className="text-sm">countdown</p>
               </div>
-              <p className="text-sm">{!!timeLeft ? `${timeLeft?.hours}:${timeLeft?.mins}:${timeLeft?.sec}` : '00:00:00'}</p>
+              <p className="text-sm">{(!!timeLeft && !!publicKey) ? `${timeLeft?.hours}:${timeLeft?.mins}:${timeLeft?.sec}` : '--:--:--'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -201,7 +201,7 @@ export const BottomStats = () => {
                 <p className="text-md">300% income limit</p>
                 <p className="text-sm">remains</p>
               </div>
-              <p className="text-sm">{`${(depositAmount * 3).toFixed(4)} SOL`}</p>
+              <p className="text-sm">{ !!publicKey ? `${(depositAmount * 3).toFixed(4) } SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -209,7 +209,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Daily income 1%</p>
               </div>
-              <p className="text-sm">{`${reward} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${reward} SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -217,7 +217,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Direct referral income</p>
               </div>
-              <p className="text-sm">{`${commission} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${commission} SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -225,7 +225,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Matching bonus</p>
               </div>
-              <p className="text-sm">{`${matchingBonus} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${matchingBonus} SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -233,7 +233,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Top sponsor pool reward</p>
               </div>
-              <p className="text-sm">{`${!!user ? user?.topSponsorReward : 0} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${!!user ? user?.topSponsorReward : 0} SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -241,7 +241,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Whale pool reward</p>
               </div>
-              <p className="text-sm">{`${!!user ? user?.whalePoolReward : 0} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${!!user ? user?.whalePoolReward : 0} SOL` : '-'}</p>
             </div>
             <div
               className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -249,7 +249,7 @@ export const BottomStats = () => {
               <div className="">
                 <p className="text-sm">Income withdrawn to wallet</p>
               </div>
-              <p className="text-sm">{`${withdrawAmount} SOL`}</p>
+              <p className="text-sm">{!!publicKey ? `${withdrawAmount} SOL` : '-'}</p>
             </div>
             <div
               className={`mt-8  relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
