@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import SignatureRequestModal from "./SignatureRequestModal";
 import CalculatorBg from "../assets/calculator-bg.png";
 import { BalanceContext } from "./contexts/useBalance";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const Calculator = () => {
   const [solAmount, setSolAmount] = useState(0);
 
   const { balance } = useContext(BalanceContext);
+  const { publicKey } = useWallet();
 
   const handleAmountClick = (amount: number) => {
     setSolAmount((prevVal) => +(amount + prevVal).toFixed(2));
@@ -31,11 +33,17 @@ export const Calculator = () => {
             <div
               className={`relative rounded-[6px] inline-block p-[2px] w-full  mb-5`}
               style={{
-                background: "linear-gradient(to right, #623EFF, #7AD6FF)" //
+                background: "linear-gradient(to right, #623EFF, #7AD6FF)", //
               }}
             >
               <div className="bg-[#171c2c] text-right p-4 rounded-lg">
-                <span className={`${balance < solAmount ? 'text-red-600' : 'text-white'}  text-2xl`}>{solAmount} SOL</span>
+                <span
+                  className={`${
+                    balance < solAmount ? "text-red-600" : "text-white"
+                  }  text-2xl`}
+                >
+                  {solAmount} SOL
+                </span>
               </div>
             </div>
             <div className="grid grid-cols-4 gap-3 md:gap-5 mb-4">
@@ -54,7 +62,7 @@ export const Calculator = () => {
                 </div>
               ))}
             </div>
-            <div className="flex gap-3 md:gap-5">
+            <div className="flex gap-3 md:gap-5  mb-5">
               <div
                 className={`relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
               >
@@ -66,12 +74,29 @@ export const Calculator = () => {
                 </button>
               </div>
               <div
-                className={`relative inline-block p-[2px] w-full bg-button-gradient-2 rounded-[6px] ${solAmount === 0 ? "opacity-30" : ""
-                  }`}
+                className={`relative inline-block p-[2px] w-full bg-button-gradient-2 rounded-[6px] ${
+                  solAmount === 0 ? "opacity-30" : ""
+                }`}
               >
                 {/* Here is the signature request modal */}
-                <SignatureRequestModal solAmount={solAmount} resetAmount={() => setSolAmount(0)} />
+                <SignatureRequestModal
+                  solAmount={solAmount}
+                  resetAmount={() => setSolAmount(0)}
+                />
               </div>
+            </div>
+
+            <div className="relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2">
+              <button
+                onClick={async () => {
+                  await navigator.clipboard.writeText(
+                    `http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`
+                  );
+                }}
+                className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"
+              >
+                Copy Referral Link
+              </button>
             </div>
           </div>
         </div>

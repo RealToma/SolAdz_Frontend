@@ -75,6 +75,51 @@ body {
 
 
 .animate-pulse-blur {
-  animation: pulse-blur 0.5s ease-in-out infinite;
+  animation: pulse-blur 1s ease-in-out infinite;
+}
 
+@keyframes pulse-blur {
+
+  0%,
+  100% {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0, 0.3);
+    color: #a5e7f1;
+  }
+
+  50% {
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0, 0.1);
+    color: blue;
+  }
+}
+
+
+
+.notification-container {
+  width: fit-content !important;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+
+  @media (max-width: 430px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+.notification {
+  padding: 15px 30px 15px 58px !important;
+  color: white !important;
+  border-radius: 6px !important;
+  opacity: 1 !important;
+}
+
+.notification-info {
+  background-color: #1975ff !important;
+  color: white !important;
+}
+
+.notification-warning {
+  background-color: #ffae00 !important;
+  color: white !important;
 }

@@ -24,6 +24,8 @@ import { Manage } from "./views/Manage";
 import LoginModal from "./components/LoginModal";
 import ProtectedRoute from "./components/ProtectRoutes";
 import { BalanceContextProvider } from "./components/contexts/useBalance";
+import { NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 // Default styles that can be overridden by your app
 import("@solana/wallet-adapter-react-ui/styles.css");
@@ -87,11 +89,11 @@ function App() {
           <WalletModalProvider>
             <BalanceContextProvider>
               <div
-                className={`${isLoading ? "opacity-100" : "opacity-0"
-                  } transition-all duration-300 fixed min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
+                className={`${
+                  isLoading ? "opacity-100" : "opacity-0"
+                } transition-all duration-300 fixed min-h-screen w-full h-full top-0 left-0 bg-blue-400 z-[99999] pointer-events-none`}
               >
                 <div className="h-full w-full flex items-center justify-center">
-
                   <Lottie
                     className="max-w-[800px]"
                     height={500}
@@ -105,6 +107,7 @@ function App() {
           </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
+      <NotificationContainer />
     </div>
   );
 }

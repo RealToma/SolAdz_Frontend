@@ -9,7 +9,7 @@ interface GradientButtonProps {
 export const GradientButton: React.FC<GradientButtonProps> = ({
   text = "Get Your Invitation Link",
   onClick,
-  className = ""
+  className = "",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -19,32 +19,35 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
-        py-4 px-[30px] sm:px-[45px] md:px-[85px] rounded-[7px]
-        text-base md:text-xl font-bold uppercase tracking-wide 
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-        relative overflow-hidden transition-all duration-300 ease-in-out
-        ${className}
-      `}
+          py-4 px-[30px] sm:px-[45px] md:px-[85px] rounded-[7px]
+          text-base md:text-xl font-bold uppercase tracking-wide 
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          relative overflow-hidden transition-transform transform duration-500 ease-in-out
+          ${className}
+        `}
       style={{
         background: isHovered
-          ? "linear-gradient(135deg, #4338CA, #6D28D9, #9333EA)"
-          : "linear-gradient(135deg, #3730A3, #4338CA, #6D28D9)",
+          ? "linear-gradient(135deg, #a5e7f1, #866ffe)"
+          : "linear-gradient(135deg, #866ffe, #a5e7f1)",
         backgroundSize: "200% 200%",
         animation: "gradientShift 5s ease infinite",
         boxShadow: isHovered
-          ? "0 8px 15px rgba(107, 40, 217, 0.3)"
-          : "0 4px 6px rgba(0, 0, 0, 0.1)",
+          ? "0 4px 6px rgba(0, 0, 0, 0.5)"
+          : "0 4px 6px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <span className="relative z-10 text-white mix-blend-overlay">
+      <span className="relative z-10 text-[#a5e7f1] mix-blend-overlay  animate-pulse-blur">
         {text}
       </span>
-      <span 
+      <span
         className="absolute inset-0 z-0 animate-text-glow"
         aria-hidden="true"
-      >
-        {text}
-      </span>
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.3), transparent)",
+          filter: "blur(12px)",
+        }}
+      />
     </button>
   );
 };

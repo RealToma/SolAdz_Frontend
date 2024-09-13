@@ -7,27 +7,24 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import IDL from '../idl/soladz.json';
 import { PublicKey, LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import { BalanceContext } from "./contexts/useBalance";
+import { userService } from "@/services/api.service";
+import { calculateTimeLeft } from "@/utils/time.utils";
+import { User } from "@/types";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
-  const { getRank } = useContext(BalanceContext);
+  const { getRank, depositAmount } = useContext(BalanceContext);
   const [volume, setVolume] = useState(0);
   const [investorCount, setInvestorCount] = useState(0);
   const [topSponsorPool, setTopSponsorPool] = useState(0);
   const [whalePool, setWhalePool] = useState(0);
-  // const contactInfoItems = Array(8)
-  //   .fill(null)
-  //   .map((_, index: number) => ({
-  //     paidContributionTimer: `Paid Contribution Timer ${index + 1}`,
-  //     contractAddress: `Contract Address ${index + 1}`
-  //   }));
+  const [commission, setCommission] = useState(0);
+  const [lastClaim, setLastClaim] = useState<number | undefined>();
+  const [matchingBonus, setMatchingbonus] = useState(0);
+  const [timeLeft, setTimeLeft] = useState<{ days: string; hours: string; mins: string; sec: string; }>();
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [user, setUser] = useState<User>();
 
-  // const personalStatistics = Array(7)
-  //   .fill(null)
-  //   .map(() => ({
-  //     nextIncome: 0,
-  //     contribution: 0
-  //   }));
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
   const { connection } = useConnection();
 
@@ -62,41 +59,74 @@ export const BottomStats = () => {
         ],
         program.programId
       )[0];
+      // @ts-ignore
+      const investor = await program.account.investor.fetch(investorAccount);
+      setWithdrawAmount(Number(investor.totalEarned) / LAMPORTS_PER_SOL);
+      setLastClaim(Number(investor.lastUpdate));
       const res = await program.methods.rewardView().accounts({
         investorAccount
       }).view();
       setReward(Number(res) / LAMPORTS_PER_SOL);
+      const bonus = await program.methods.matchingBonusView().accounts({
+        investorAccount
+      }).view();
+      setMatchingbonus(bonus / LAMPORTS_PER_SOL);
       getRank();
+      const commssionReward = await userService.getCommission(publicKey.toBase58());
+      const userinfo: User = await userService.getUserInfo(publicKey.toBase58());
+      setUser(userinfo);
+      setCommission(commssionReward);
     } catch (e) {
-
+      console.log(e)
     }
   }, [publicKey, signTransaction, signAllTransactions])
 
   useEffect(() => {
     const timer = setInterval(async () => {
       getReward();
-    }, 3000)
+    }, 36000)
     return () => {
       clearInterval(timer);
     }
   }, [publicKey, signTransaction, signAllTransactions]);
 
+  useEffect(() => {
+    if (!lastClaim) return;
+    const interval = setInterval(() => {
+      let target = lastClaim;
+      while (target < Math.floor(Date.now() / 1000)) {
+        target += 86400;
+      }
+      const left = calculateTimeLeft(target);
+      setTimeLeft(left)
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, [lastClaim])
+
   const withdraw = useCallback(async () => {
     if (!publicKey || !signTransaction || !signAllTransactions) return;
-      const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
-      const program = new Program(IDL as Idl, provider);
-      const ixn = await program.methods.claim().instruction();
-      const instructions = [ixn];
-      const { blockhash } = await connection.getLatestBlockhash();
-      const message = new TransactionMessage({
-        payerKey: publicKey,
-        recentBlockhash: blockhash,
-        instructions
-      }).compileToV0Message();
-      const transaction = new VersionedTransaction(message);
-      const txn = await signTransaction(transaction);
-      await connection.sendTransaction(txn);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    const provider = new AnchorProvider(connection, { publicKey, signTransaction, signAllTransactions });
+    const program = new Program(IDL as Idl, provider);
+    const ixn = await program.methods.claim().instruction();
+    const instructions = [ixn];
+    const { blockhash } = await connection.getLatestBlockhash();
+    const message = new TransactionMessage({
+      payerKey: publicKey,
+      recentBlockhash: blockhash,
+      instructions
+    }).compileToV0Message();
+    const transaction = new VersionedTransaction(message);
+    const txn = await signTransaction(transaction);
+    await connection.sendTransaction(txn);
+    // withdraw commission
+    const serialzedBuff = await userService.getCommissionTxn(publicKey.toBase58());
+    const txnBuf = Buffer.from(serialzedBuff, 'base64');
+    const sendTxn = VersionedTransaction.deserialize(txnBuf);
+    const signed = await signTransaction(sendTxn);
+    await connection.sendTransaction(signed);
+    await new Promise((resolve) => setTimeout(resolve, 3000));
   }, [publicKey, signTransaction, signAllTransactions]);
 
   return (
@@ -107,46 +137,46 @@ export const BottomStats = () => {
             <h2 className="text-2xl poller font-bold">Smart contact info</h2>
           </CardHeader>
           <CardContent>
-              <div
-                className={`border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="text-sm">
-                  CA
-                </div>
-                <div className="text-sm ">{IDL.address}</div>
+            <div
+              className={`border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="text-sm">
+                CA
               </div>
-              <div
-                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="text-sm">
-                  Total users
-                </div>
-                <div className="text-sm ">{`${investorCount}`}</div>
+              <div className="text-sm ">{IDL.address}</div>
+            </div>
+            <div
+              className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="text-sm">
+                Total users
               </div>
-              <div
-                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="text-sm">
-                  Total deposited
-                </div>
-                <div className="text-sm ">{`${volume.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{`${investorCount}`}</div>
+            </div>
+            <div
+              className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="text-sm">
+                Total deposited
               </div>
-              <div
-                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="text-sm">
-                  Top sponsor pool
-                </div>
-                <div className="text-sm ">{`${topSponsorPool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{`${volume.toFixed(4)} SOL`}</div>
+            </div>
+            <div
+              className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="text-sm">
+                Top sponsor pool
               </div>
-              <div
-                className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="text-sm">
-                  Whale pool
-                </div>
-                <div className="text-sm ">{`${whalePool.toFixed(4)} SOL`}</div>
+              <div className="text-sm ">{`${topSponsorPool.toFixed(4)} SOL`}</div>
+            </div>
+            <div
+              className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="text-sm">
+                Whale pool
               </div>
+              <div className="text-sm ">{`${whalePool.toFixed(4)} SOL`}</div>
+            </div>
           </CardContent>
         </Card>
 
@@ -159,25 +189,70 @@ export const BottomStats = () => {
               className={`"border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
             >
               <div className="">
-                <p className="text-sm">Reward</p>
+                <p className="text-md">Next income</p>
+                <p className="text-sm">countdown</p>
+              </div>
+              <p className="text-sm">{!!timeLeft ? `${timeLeft?.hours}:${timeLeft?.mins}:${timeLeft?.sec}` : '00:00:00'}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-md">300% income limit</p>
+                <p className="text-sm">remains</p>
+              </div>
+              <p className="text-sm">{`${(depositAmount * 3).toFixed(4)} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Daily income 1%</p>
               </div>
               <p className="text-sm">{`${reward} SOL`}</p>
             </div>
-            {/* {personalStatistics.map((stat, index) => (
-              <div
-                key={index}
-                className={`${index === 0 ? "border-white/20 border-t" : ""
-                  } border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
-              >
-                <div className="">
-                  <p className="text-sm">Next income</p>
-                  <p className="text-sm">Contribution</p>
-                </div>
-                <p className="text-sm">{stat.nextIncome} SOL</p>
-              </div>
-            ))} */}
             <div
-              className={`mt-8 max-w-[253px] relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Direct referral income</p>
+              </div>
+              <p className="text-sm">{`${commission} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Matching bonus</p>
+              </div>
+              <p className="text-sm">{`${matchingBonus} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Top sponsor pool reward</p>
+              </div>
+              <p className="text-sm">{`${!!user ? user?.topSponsorReward : 0} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Whale pool reward</p>
+              </div>
+              <p className="text-sm">{`${!!user ? user?.whalePoolReward : 0} SOL`}</p>
+            </div>
+            <div
+              className={`"border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
+            >
+              <div className="">
+                <p className="text-sm">Income withdrawn to wallet</p>
+              </div>
+              <p className="text-sm">{`${withdrawAmount} SOL`}</p>
+            </div>
+            <div
+              className={`mt-8  relative inline-block p-[2px] w-full rounded-[6px] bg-button-gradient-2`}
             >
               <button onClick={withdraw} className="w-full hover:bg-white/20 transition-all duration-300 bg-[#140e3c] text-white py-1 px-4 rounded flex-1 font-medium text-[14px]">
                 Withdraw

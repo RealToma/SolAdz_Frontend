@@ -9,9 +9,9 @@ import { useContext, useEffect } from "react";
 import { BalanceContext } from "./contexts/useBalance";
 
 export const Header = () => {
-  const rightText = "MY INVESET RANK : STARTER"+'\u00a0'+'\u00a0'+'\u00a0'+"|"+'\u00a0'+'\u00a0'+'\u00a0'+"MY SOL :" ;
+  const rightText = "MY INVESET RANK : STARTER" + '\u00a0' + '\u00a0' + '\u00a0' + "|" + '\u00a0' + '\u00a0' + '\u00a0' + "MY SOL :";
   const { setVisible } = useWalletModal();
-  const { publicKey } = useWallet();  
+  const { publicKey } = useWallet();
   const { balance, getBalance, getRank, rank } = useContext(BalanceContext);
 
   useEffect(() => {
@@ -35,17 +35,21 @@ export const Header = () => {
 
         <div className="flex items-center text-xs lg:text-sm">
           <div className="hidden md:flex">
-            <span className="text-white mr-4 uppercase">
-              {`MY SOLADZ RANK: ${rank} | BALANCE: ${!!balance ? balance.toFixed(3) : 0} SOL`}
-            </span>
+            {
+              !!publicKey && (
+                <span className="text-white mr-4 uppercase">
+                  {`MY SOLADZ RANK: ${rank} | BALANCE: ${!!balance ? balance.toFixed(3) : 0} SOL`}
+                </span>
+              )
+            }
           </div>
           <ConnectWalletButton
             onClick={() => setVisible(true)}
             text={
               !!publicKey
                 ? `${publicKey.toBase58().slice(0, 4)}...${publicKey
-                    .toBase58()
-                    .slice(-4)}`
+                  .toBase58()
+                  .slice(-4)}`
                 : "connect wallet"
             }
           />

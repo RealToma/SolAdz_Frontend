@@ -10,6 +10,7 @@ export interface BalanceContextProps {
     getBalance: () => void;
     rank: string;
     getRank: () => void;
+    depositAmount: number;
 }
 
 export const BalanceContext = createContext<BalanceContextProps>({} as BalanceContextProps)
@@ -17,6 +18,7 @@ export const BalanceContext = createContext<BalanceContextProps>({} as BalanceCo
 export const BalanceContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [balance, setBalance] = useState(0);
     const [rank, setRank] = useState('starter');
+    const [depositAmount, setDepositAmount] = useState(0);
 
     const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
@@ -45,6 +47,7 @@ export const BalanceContextProvider = ({ children }: { children: React.ReactNode
             // @ts-ignore
             const investorAccount = await program.account.investor.fetch(investor);
             const solAmount = Number(investorAccount.amount) / LAMPORTS_PER_SOL;
+            setDepositAmount(solAmount);
             setRank(calculateRank(solAmount));
         } catch (e) {
             console.log(e);
@@ -52,7 +55,7 @@ export const BalanceContextProvider = ({ children }: { children: React.ReactNode
     }, [publicKey, connection, signAllTransactions, signTransaction])
 
     return (
-        <BalanceContext.Provider value={{ balance, getBalance, rank, getRank }}>
+        <BalanceContext.Provider value={{ balance, getBalance, rank, getRank, depositAmount }}>
             {children}
         </BalanceContext.Provider>
     )
