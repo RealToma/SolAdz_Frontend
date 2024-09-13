@@ -90,7 +90,8 @@ export const Calculator = () => {
               <button
                 onClick={async () => {
                   await navigator.clipboard.writeText(
-                    `http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`
+                    // `http://localhost:5173/innovation?ref=${publicKey?.toBase58()}`
+                    `https://sol-adz.com/innovation?ref=${publicKey?.toBase58()}`
                   );
                 }}
                 className="w-full bg-[#140e3c] hover:bg-white/20 transition-all duration-300 text-white py-2 px-4 rounded flex-1 font-medium text-[15px]"

@@ -232,7 +232,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
                 {/* <span className="font-medium">Fee (?)</span> */}
               </div>
             </div>
-            <a href={`https://explorer.solana.com/tx/${txHash}?cluster=devnet`} target="blank" className="mt-4 text-blue-600 cursor-pointer">
+            <a href={`https://explorer.solana.com/tx/${txHash}?cluster=mainnet-beta`} target="blank" className="mt-4 text-blue-600 cursor-pointer">
               Go to solscan for the detailed transaction.
             </a>
           </div>

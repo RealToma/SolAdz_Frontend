@@ -6,4 +6,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const connection = new Connection(clusterApiUrl('devnet'));
+export const connection = new Connection(clusterApiUrl('mainnet-beta'));
