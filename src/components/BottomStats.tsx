@@ -132,9 +132,9 @@ export const BottomStats = () => {
   return (
     <div className="px-4 mt-12">
       <div className="flex flex-col gap-4 lg:flex-row p-4 md:p-6 max-w-[1200px] border border-dashed rounded-lg border-black mx-auto">
-        <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
+        <Card className="w-full py-4 md:py-8 px-2 md:px-4 lg:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
-            <h2 className="text-2xl poller font-bold">Smart contact info</h2>
+            <h2 className="text-[18px] sm:text-2xl poller font-bold">Smart Contract Info</h2>
           </CardHeader>
           <CardContent>
             <div
@@ -143,7 +143,7 @@ export const BottomStats = () => {
               <div className="text-sm">
                 CA
               </div>
-              <div className="text-sm ">{IDL.address}</div>
+              <div className="text-sm ">{window.innerWidth<700?`${IDL.address.slice(0, 8)}...${IDL.address.slice(-8)}`:IDL.address}</div>
             </div>
             <div
               className={`border-white/20 border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
@@ -180,11 +180,11 @@ export const BottomStats = () => {
           </CardContent>
         </Card>
 
-        <Card className="w-full py-4 md:py-8 px-4 md:px-6 bg-[#0A1129] text-white border-none">
+        <Card className="w-full py-4 md:py-8 px-2 md:px-4 lg:px-6 bg-[#0A1129] text-white border-none">
           <CardHeader>
-            <h2 className="text-2xl poller font-bold">Personal Statistics</h2>
+            <h2 className="text-[18px] sm:text-2xl poller font-bold">Personal Statistics</h2>
           </CardHeader>
-          <CardContent className="">
+          <CardContent>
             <div
               className={`"border-white/20 border-t border-b py-4 border-white/20 flex justify-between items-center hover:bg-white/10 px-4`}
             >

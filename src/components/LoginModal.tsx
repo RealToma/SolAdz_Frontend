@@ -9,7 +9,7 @@ const LoginModal = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Replace this with your actual authentication logic
-    if (username === "admin" && password === "admin0114") {
+    if (username === "SolAdz" && password === "SolAdz0114") {
       localStorage.setItem("isAuthenticated", "true");
       navigate("/manage");
     } else {
