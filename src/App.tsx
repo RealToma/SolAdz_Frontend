@@ -59,6 +59,8 @@ function App() {
 
   // const network = WalletAdapterNetwork.Devnet;
   const network = WalletAdapterNetwork.Mainnet;
+  // const network: any =
+  //   "https://mainnet.helius-rpc.com/?api-key=af96dbd7-552e-4f4b-8b34-e607f792a78c";
 
   // You can also provide a custom RPC endpoint.
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
