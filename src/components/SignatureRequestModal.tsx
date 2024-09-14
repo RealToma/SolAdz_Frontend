@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { DialogClose, DialogOverlay } from "@radix-ui/react-dialog";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import IDL from '../idl/soladz.json';
 import { AnchorProvider, BN, Idl, Program, utils } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL, TransactionMessage, VersionedTransaction, PublicKey } from '@solana/web3.js';
@@ -15,6 +15,7 @@ import { BalanceContext } from "./contexts/useBalance";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useSearchParams } from "react-router-dom";
 import { userService } from "@/services/api.service";
+import { connection } from "@/lib/utils";
 
 const TransactionItem = ({ leftVal, rightVal }: { leftVal: string; rightVal: string }) => {
   return (
@@ -29,7 +30,7 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [txHash, setTxHash] = useState('');
 
-  const { connection } = useConnection();
+  // const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
   const [spentAmount, setSpentAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);

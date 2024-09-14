@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import MainBg from "../assets/solAdz-bg.png";
 import { Header } from "@/components/Header";
 import { ArrowRight, Coins } from "lucide-react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { AnchorProvider, Idl, Program } from "@coral-xyz/anchor";
 import IDL from "../idl/soladz.json";
 import {
@@ -10,11 +10,12 @@ import {
   VersionedTransaction,
   PublicKey,
 } from "@solana/web3.js";
+import { connection } from "@/lib/utils";
 
 export const Manage = () => {
   const [ownershipAddress, setOwnershipAddress] = useState("");
 
-  const { connection } = useConnection();
+  // const { connection } = useConnection();
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
 
   const handleTransferOwnership = useCallback(async () => {

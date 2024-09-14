@@ -1,7 +1,7 @@
 // import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AnchorProvider, Idl, Program, utils } from "@coral-xyz/anchor";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import IDL from '../idl/soladz.json';
@@ -10,6 +10,7 @@ import { BalanceContext } from "./contexts/useBalance";
 import { userService } from "@/services/api.service";
 import { calculateTimeLeft } from "@/utils/time.utils";
 import { User } from "@/types";
+import { connection } from "@/lib/utils";
 
 export const BottomStats = () => {
   const [reward, setReward] = useState(0);
@@ -26,7 +27,7 @@ export const BottomStats = () => {
   const [user, setUser] = useState<User>();
 
   const { publicKey, signAllTransactions, signTransaction } = useWallet();
-  const { connection } = useConnection();
+  // const { connection } = useConnection();
 
   const getReward = useCallback(async () => {
     try {
