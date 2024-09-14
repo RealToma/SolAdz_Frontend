@@ -1,6 +1,6 @@
 import LinesRight from "../assets/lines-right.png";
 import BgLeft from "../assets/bg-left-1.png";
-import { useWallet } from "@solana/wallet-adapter-react";
+// import { useWallet } from "@solana/wallet-adapter-react";
 
 export const ContentSection = () => {
   return (
