@@ -59,6 +59,8 @@ function App() {
 
   const network = WalletAdapterNetwork.Devnet;
   // const network = WalletAdapterNetwork.Mainnet;
+
+  // unuseful
   // const network: any =
   //   "https://mainnet.helius-rpc.com/?api-key=af96dbd7-552e-4f4b-8b34-e607f792a78c";
 
