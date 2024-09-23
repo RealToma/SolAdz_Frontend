@@ -2,7 +2,8 @@ import { CreateUserPayload } from "@/types";
 import axios from "axios";
 
 // const baseUrl = 'http://localhost:4000';
-const baseUrl = 'https://soladz-backend.vercel.app';
+const baseUrl = 'http://5.183.8.54:4000';
+// const baseUrl = 'https://soladz-backend.vercel.app';
 
 export const userService = {
     create: async (payload: CreateUserPayload) => {
