@@ -68,10 +68,8 @@ export const BottomStats = () => {
         investorAccount
       }).view();
       setReward(Number(res) / LAMPORTS_PER_SOL);
-      const bonus = await program.methods.matchingBonusView().accounts({
-        investorAccount
-      }).view();
-      setMatchingbonus(bonus / LAMPORTS_PER_SOL);
+      const bonus = await userService.getMatchingBonsu(publicKey.toBase58());
+      setMatchingbonus(bonus)
       getRank();
       const commssionReward = await userService.getCommission(publicKey.toBase58());
       const userinfo: User = await userService.getUserInfo(publicKey.toBase58());

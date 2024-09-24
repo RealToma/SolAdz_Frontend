@@ -21,5 +21,9 @@ export const userService = {
     getUserInfo: async (address: string) => {
         const res = await axios.get(`${baseUrl}/users/${address}`);
         return res.data;
+    },
+    getMatchingBonsu: async (address: string) => {
+        const res = await axios.get(`${baseUrl}/users/matching-bonus/${address}`);
+        return res.data;
     }
 }

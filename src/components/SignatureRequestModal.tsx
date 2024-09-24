@@ -85,20 +85,22 @@ const SignatureRequestModal = ({ solAmount, resetAmount }: { solAmount: number, 
       const sign = await connection.sendTransaction(txn);
       setTxHash(sign);
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      if (isNew) {
+
         if (!!referrer) {
           await userService.create({
             address: publicKey.toBase58(),
             account: investorAccount.toBase58(),
-            referrer: referrer.toBase58()
+            referrer: referrer.toBase58(),
+            amount: Number(solAmount)
           })
         } else {
           await userService.create({
             address: publicKey.toBase58(),
             account: investorAccount.toBase58(),
+            amount: Number(solAmount)
           })
         }
-      }
+    
       setTransactionSuccess(true);
       setSpentAmount(solAmount);
       resetAmount();
